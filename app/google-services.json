@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "858665478783",
+    "project_id": "concerttourbookingapp",
+    "storage_bucket": "concerttourbookingapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858665478783:android:cf3a66ad5ae78152ec6d4a",
+        "android_client_info": {
+          "package_name": "com.example.a6012cem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl1HHlefDa7NIkGkTf1B9vzfHtOkndcR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858665478783:android:64a3f93dffe57c32ec6d4a",
+        "android_client_info": {
+          "package_name": "com.example.concerttourbooking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl1HHlefDa7NIkGkTf1B9vzfHtOkndcR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
