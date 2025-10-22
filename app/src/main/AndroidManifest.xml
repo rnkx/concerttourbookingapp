@@ -1,41 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="com.example.a6012cem">
 
+    <!-- Internet Permission for Firebase -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-        tools:ignore="GoogleAppIndexingWarning">
+        android:label="Concert Tour Booking"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
 
-        <!-- Splash Screen -->
+        <!-- MAIN LAUNCHER - Admin Login -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".AdminLoginActivity"
+            android:exported="true"
+            android:label="Admin Login"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Login Activity -->
+        <!-- ADMIN ACTIVITIES -->
+        <activity
+            android:name=".AdminRegisterActivity"
+            android:exported="false"
+            android:label="Admin Registration"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".AdminDashboardActivity"
+            android:exported="false"
+            android:label="Admin Dashboard"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ManageConcertsActivity"
+            android:exported="false"
+            android:label="Manage Concerts"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ManageReservationActivity"
+            android:exported="false"
+            android:label="Manage Reservations"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".AddConcertActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".EditConcertActivity"
+            android:exported="false"
+            android:label="Edit Concert"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- CUSTOMER ACTIVITIES -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="Concert Booking"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Customer Login"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- Register Activity -->
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Customer Register"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- Home Activity -->
         <activity
             android:name=".HomeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Home"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".BookConcertActivity"
+            android:label="Book Concert"
+            android:parentActivityName=".ViewConcertsActivity" />
+
+        <activity
+            android:name=".ConcertDetailActivity"
+            android:exported="false"
+            android:label="Concert Details"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".BookingActivity"
+            android:exported="false"
+            android:label="Book Tickets"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- HELPER & UTILITY CLASSES -->
+        <activity
+            android:name=".ReservationDetailActivity"
+            android:exported="false"
+            android:label="Reservation Details"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ViewConcertsActivity"
+            android:exported="false"
+            android:label="View Concerts"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity android:name=".MyBookingsActivity" />
+
+        <!-- FIREBASE SERVICES -->
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.database.FirebaseDatabaseRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
 
     </application>
 

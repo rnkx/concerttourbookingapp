@@ -8,4 +8,16 @@
     <string name="no_account">Don\'t have an account?</string>
     <string name="register_here">Register here</string>
     <string name="logout">Logout</string>
-</resources>
+    <string name="app_logo">\@drawable/music_logo\n</string>
+
+        <string name="concert_image">Concert Image</string>
+        <string name="concert_title">Concert Title</string>
+        <string name="artist_name">Artist Name</string>
+        <string name="venue">Venue</string>
+        <string name="date_time">Date and Time</string>
+        <string name="price">Price</string>
+        <string name="tickets_available">Tickets Available</string>
+        <string name="edit">Edit</string>
+        <string name="delete">Delete</string>
+        <string name="book">Book</string>
+    </resources>

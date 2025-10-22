@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFEB3B">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <EditText
+            android:id="@+id/editTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Concert Title"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Artist -->
+        <EditText
+            android:id="@+id/editArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Artist"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Venue -->
+        <EditText
+            android:id="@+id/editVenue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Venue"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Date and Time -->
+        <EditText
+            android:id="@+id/editDateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date and Time (e.g., 2025-03-08 | 18:00)"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Price -->
+        <EditText
+            android:id="@+id/editPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Tickets Available -->
+        <EditText
+            android:id="@+id/editTickets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tickets Available"
+            android:inputType="number"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Add Concert Button -->
+        <Button
+            android:id="@+id/btnAddConcert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Concert"
+            android:backgroundTint="@color/green" />
+
+    </LinearLayout>
+
+</ScrollView>

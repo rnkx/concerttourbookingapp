@@ -3,50 +3,44 @@ package com.example.a6012cem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Button logoutButton;
-    private TextView welcomeTextView;
-    private FirebaseAuth mAuth;
+    private Button btnViewConcerts, btnMyBookings, btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mAuth = FirebaseAuth.getInstance();
         initializeViews();
         setupClickListeners();
-        displayUserInfo();
     }
 
     private void initializeViews() {
-        logoutButton = findViewById(R.id.logoutButton);
-        welcomeTextView = findViewById(R.id.welcomeTextView);
+        btnViewConcerts = findViewById(R.id.btnViewConcerts);
+        btnMyBookings = findViewById(R.id.btnMyBookings);
+        btnLogout = findViewById(R.id.logoutButton);
     }
 
     private void setupClickListeners() {
-        logoutButton.setOnClickListener(v -> logoutUser());
-    }
+        // Navigate to View Concerts (Customer can only view)
+        btnViewConcerts.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ViewConcertsActivity.class);
+            startActivity(intent);
+        });
 
-    private void displayUserInfo() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            String email = currentUser.getEmail();
-            welcomeTextView.setText("Welcome!\n" + email);
-        }
-    }
+        // My Bookings - Show booking history or message
+        btnMyBookings.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, MyBookingsActivity.class);
+            startActivity(intent);
+        });
 
-    private void logoutUser() {
-        mAuth.signOut();
-        Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-        finish();
+        // Logout
+        btnLogout.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
     }
 }

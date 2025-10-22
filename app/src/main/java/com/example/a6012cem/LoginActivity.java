@@ -14,9 +14,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button loginButton;
+    private Button loginButton, adminLoginButton;
     private TextView registerTextView;
     private FirebaseAuth mAuth;
+    private long backPressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +26,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Check if user is already logged in
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            navigateToHome();
-            return;
-        }
+
+
 
         initializeViews();
         setupClickListeners();
@@ -41,14 +38,21 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
+        adminLoginButton = findViewById(R.id.adminLoginButton);
         registerTextView = findViewById(R.id.registerTextView);
     }
 
     private void setupClickListeners() {
         loginButton.setOnClickListener(v -> attemptLogin());
 
+        // Admin login button listener
+        adminLoginButton.setOnClickListener(v -> {
+            navigateToAdminLogin();
+        });
+
         registerTextView.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
     }
 
@@ -63,6 +67,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             showToast("Please enter a valid email address");
+            return;
+        }
+
+        // Check if user is trying to login as admin with regular login
+        if (isAdminEmail(email)) {
+            showToast("Please use Admin Login for admin accounts");
             return;
         }
 
@@ -86,6 +96,18 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private void navigateToAdminLogin() {
+        Toast.makeText(this, "Admin Login Button Clicked!", Toast.LENGTH_LONG).show();
+        try {
+            Intent intent = new Intent(LoginActivity.this, AdminLoginActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            Toast.makeText(this, "Opening Admin Login...", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
     private void handleLoginError(Exception exception, String email, String password) {
         if (exception == null) {
             showToast("Login failed. Please try again.");
@@ -113,6 +135,10 @@ public class LoginActivity extends AppCompatActivity {
             showToast("Incorrect password");
         } else if (errorMessage.contains("invalid email")) {
             showToast("Invalid email format");
+        } else if (errorMessage.contains("The email address is already in use by another account")) {
+            showToast("Email already in use");
+        } else if (errorMessage.contains("We have blocked all requests from this device due to unusual activity.")) {
+            showToast("Too many attempts. Try again later.");
         } else {
             showToast("Login failed: " + errorMessage);
         }
@@ -124,6 +150,20 @@ public class LoginActivity extends AppCompatActivity {
         String savedPassword = prefs.getString("password", "");
 
         return email.equals(savedEmail) && password.equals(savedPassword);
+    }
+
+    private boolean isAdminUser(String email) {
+        if (email == null) return false;
+        SharedPreferences adminPrefs = getSharedPreferences("AdminData", MODE_PRIVATE);
+        String savedAdminEmail = adminPrefs.getString("adminEmail", "");
+        return email.equals(savedAdminEmail) || email.contains("admin");
+    }
+
+    private boolean isAdminEmail(String email) {
+        return email != null &&
+                (email.contains("admin") ||
+                        email.contains("administrator") ||
+                        email.equals("admin@concert.com"));
     }
 
     private void loadDemoCredentials() {
@@ -143,14 +183,27 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        emailEditText.setText(savedEmail);
-        passwordEditText.setText(savedPassword);
-        showToast("Demo credentials loaded. Press Login to continue.");
+        // Only auto-fill if it's the demo account (not admin)
+        if (!savedEmail.contains("admin")) {
+            emailEditText.setText(savedEmail);
+            passwordEditText.setText(savedPassword);
+        }
     }
 
     private void navigateToHome() {
-        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    private void navigateToAdminDashboard() {
+        Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     private void showToast(String message) {
@@ -160,7 +213,25 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Quick check for demo data on app start
         loadDemoCredentials();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        passwordEditText.setText("");
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Double tap to exit with 2 second interval
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            finishAffinity(); // Complete exit only after double tap
+            return;
+        } else {
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 }
